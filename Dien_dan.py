@@ -11,7 +11,11 @@ st.set_page_config(page_title="Diễn Đàn Học Đường", page_icon="💬", 
 st.markdown("""
 <style>
     .main {
-        background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+        background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    }
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+        background-color: white !important;
+        color: #333 !important;
     }
     .stButton>button {
         border-radius: 20px;
@@ -44,6 +48,7 @@ st.markdown("""
         border-radius: 10px;
         margin: 10px 0;
         border-left: 4px solid #42A5F5;
+        color: #333;
     }
     .stat-badge {
         display: inline-block;
@@ -456,8 +461,8 @@ def post_detail_page(conn):
             _, _, c_username, c_content, c_created_at = comment
             st.markdown(f"""
             <div class="comment-box">
-                <strong>👤 {c_username}</strong> • <small>🕒 {c_created_at}</small>
-                <p style="margin-top:8px;">{c_content}</p>
+                <strong style="color: #1976D2;">👤 {c_username}</strong> • <small style="color: #666;">🕒 {c_created_at}</small>
+                <p style="margin-top:8px; color: #333;">{c_content}</p>
             </div>
             """, unsafe_allow_html=True)
 
