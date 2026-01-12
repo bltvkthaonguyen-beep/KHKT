@@ -9,85 +9,183 @@ import os
 # Cấu hình trang
 st.set_page_config(page_title="Shop Mèo", layout="wide")
 
-# CSS tùy chỉnh cho giao diện
+# CSS tùy chỉnh cho giao diện - Phong cách vẽ tay như trong ảnh gốc
 st.markdown("""
 <style>
     /* Ẩn header và footer mặc định của Streamlit */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    header {visibility: hidden;}
     
-    /* Style cho sidebar danh mục */
-    .category-button {
+    /* Background tổng thể */
+    .stApp {
+        background-color: #F5F5DC;
+    }
+    
+    /* Ẩn padding mặc định */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 0rem;
+    }
+    
+    /* Style cho nút danh mục - Giống ảnh gốc */
+    .stButton > button {
         width: 100%;
         padding: 15px;
         margin: 5px 0;
-        background-color: #D4A574;
-        border: 2px solid #8B6F47;
-        border-radius: 5px;
-        cursor: pointer;
-        font-family: 'Courier New', monospace;
-        font-size: 18px;
+        background-color: #D9C3A0;
+        border: 3px solid #8B6F47;
+        border-radius: 8px;
+        font-family: 'Brush Script MT', cursive, 'Segoe UI', sans-serif;
+        font-size: 20px;
+        color: #5C4033;
         text-align: center;
+        font-weight: normal;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     
-    /* Style cho vật phẩm */
-    .item-card {
-        border: 3px solid #8B6F47;
+    /* Nút được chọn */
+    .stButton > button[kind="primary"] {
+        background-color: #C9A87C;
+        border: 4px solid #8B6F47;
+        font-weight: bold;
+    }
+    
+    /* Style cho header SHOP */
+    .shop-header {
+        background-color: #D9A76A;
+        border: 4px solid #8B6F47;
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #8B4513;
+        font-family: 'Brush Script MT', cursive, 'Segoe UI', sans-serif;
+        margin-bottom: 15px;
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        text-decoration: underline;
+        text-decoration-color: #8B4513;
+        text-decoration-thickness: 3px;
+    }
+    
+    /* Panel bên trái - Sidebar */
+    .left-panel {
+        background-color: #C9A87C;
+        border: 4px solid #8B4513;
         border-radius: 10px;
+        padding: 20px 10px;
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        height: 100%;
+    }
+    
+    .left-panel-header {
+        background-color: #F5DEB3;
+        border: 3px solid #8B6F47;
+        border-radius: 8px;
         padding: 10px;
         text-align: center;
-        background-color: #FFF8DC;
-        margin: 10px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #8B4513;
+        font-family: 'Brush Script MT', cursive;
+        margin-bottom: 20px;
+        text-decoration: underline;
+    }
+    
+    /* Khu vực trung tâm */
+    .center-area {
+        background-color: #EDD9B8;
+        border: 4px solid #8B6F47;
+        border-radius: 10px;
+        padding: 20px;
+        min-height: 500px;
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    }
+    
+    /* Style cho card vật phẩm */
+    .item-card {
+        background-color: #FFFFFF;
+        border: 3px solid #CCCCCC;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        height: 100%;
+    }
+    
+    .item-image {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+        margin-bottom: 10px;
     }
     
     .item-price {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
-        color: #8B4789;
+        color: #9370DB;
         margin-top: 10px;
         cursor: pointer;
-        padding: 5px;
-        background-color: #FFE4E1;
-        border-radius: 5px;
+        padding: 8px;
+        background-color: #F0F0F0;
+        border-radius: 8px;
+        border: 2px solid #CCCCCC;
     }
     
     .item-price:hover {
-        background-color: #FFB6C1;
+        background-color: #E6E6FA;
+        border-color: #9370DB;
     }
     
-    /* Style cho nhiệm vụ */
-    .task-card {
-        background-color: #FFF8DC;
-        border: 2px solid #FF69B4;
+    /* Panel bên phải - Nhiệm vụ */
+    .right-panel {
+        background-color: #EDD9B8;
+        border: 4px solid #8B6F47;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    }
+    
+    .task-header {
+        background-color: #E8A668;
+        border: 3px solid #8B6F47;
         border-radius: 8px;
         padding: 15px;
-        margin: 10px 0;
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #000000;
+        font-family: 'Brush Script MT', cursive;
+        margin-bottom: 15px;
     }
     
-    /* Style cho điểm số */
-    .points-display {
-        background-color: #FFE4B5;
+    .points-box {
+        background-color: #FFFACD;
         border: 3px solid #8B6F47;
         border-radius: 10px;
         padding: 20px;
         text-align: center;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     
-    /* Header shop */
-    .shop-header {
-        background-color: #D4A574;
-        border: 3px solid #8B6F47;
+    .task-card {
+        background-color: #FFFACD;
+        border: 3px solid #FF69B4;
         border-radius: 10px;
         padding: 20px;
-        text-align: center;
-        font-size: 36px;
-        font-weight: bold;
-        color: #8B4513;
-        margin-bottom: 20px;
+        margin: 12px 0;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        min-height: 100px;
     }
+    
+    /* Ẩn các element không cần thiết */
+    .stDeployButton {display: none;}
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -407,14 +505,85 @@ def purchase_item(item: Dict) -> tuple[bool, str]:
 
 def display_item_card(item: Dict, col):
     """
-    Hiển thị thẻ vật phẩm.
+    Hiển thị thẻ vật phẩm theo phong cách ảnh gốc.
     
     Args:
         item (Dict): Thông tin vật phẩm
         col: Cột Streamlit để hiển thị
     """
     with col:
+        st.markdown('<div class="item-card">', unsafe_allow_html=True)
+        
         # Hiển thị ảnh vật phẩm
+        if os.path.exists(item['image']):
+            st.image(item['image'], use_container_width=True)
+        else:
+            # Placeholder với viền nét đứt như trong ảnh gốc
+            st.markdown("""
+                <div style='background-color: #E8E8E8; 
+                            height: 180px; 
+                            border: 3px dashed #999999; 
+                            border-radius: 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: #666;
+                            font-size: 18px;
+                            margin: 10px 0;'>
+                    [Chưa có ảnh]
+                </div>
+            """, unsafe_allow_html=True)
+        
+        # Hiển thị giá theo đúng màu trong ảnh gốc
+        owned = is_item_owned(item['id'])
+        if owned:
+            st.markdown(f"""
+                <div style='text-align: center; 
+                            font-size: 24px; 
+                            color: #228B22; 
+                            font-weight: bold;
+                            margin-top: 15px;
+                            padding: 10px;
+                            background-color: #90EE90;
+                            border-radius: 8px;
+                            border: 2px solid #228B22;'>
+                    ✓ Đã sở hữu
+                </div>
+            """, unsafe_allow_html=True)
+        else:
+            # Màu giá theo ảnh gốc (tím, cam, hồng, xanh...)
+            price_colors = ['#9370DB', '#FF8C00', '#FF69B4', '#4169E1', '#32CD32']
+            color = price_colors[hash(item['id']) % len(price_colors)]
+            
+            # Nút mua (click vào giá)
+            if st.button(
+                f"{item['price']:,}", 
+                key=f"buy_{item['id']}", 
+                use_container_width=True
+            ):
+                success, message = purchase_item(item)
+                if success:
+                    st.success(message)
+                    st.rerun()
+                else:
+                    st.error(message)
+            
+            # Style cho giá sau khi render button
+            st.markdown(f"""
+                <style>
+                button[data-testid="baseButton-secondary"][kind="secondary"]:has-text("{item['price']:,}") {{
+                    font-size: 28px !important;
+                    font-weight: bold !important;
+                    color: {color} !important;
+                    background-color: #F5F5F5 !important;
+                    border: 2px solid #CCCCCC !important;
+                    padding: 10px !important;
+                    margin-top: 10px !important;
+                }}
+                </style>
+            """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)ị ảnh vật phẩm
         if os.path.exists(item['image']):
             st.image(item['image'], use_container_width=True)
         else:
@@ -583,50 +752,9 @@ if __name__ == "__main__":
 
 
 # ============================================================================
-# HƯỚNG DẪN TÍCH HỢP MODULE KHÁC (CHO DEV)
+# API CÔNG KHAI CỦA SHOP MODULE
 # ============================================================================
-"""
-TÍCH HỢP VỚI MODULE TASK:
--------------------------
-1. Import module Task vào đầu file:
-   from task_module import get_tasks, complete_task
 
-2. Thay thế MOCK_TASKS trong init_session_state():
-   st.session_state.tasks = get_tasks()
-
-3. Module Task sẽ chịu trách nhiệm:
-   - Quản lý danh sách nhiệm vụ
-   - Xử lý logic hoàn thành nhiệm vụ
-   - Cộng điểm cho người chơi khi hoàn thành
-
-
-TÍCH HỢP VỚI MODULE CHATBOX:
------------------------------
-1. Import module Chatbox:
-   from chatbox_module import get_chatbox_questions
-
-2. Module Chatbox sẽ:
-   - Hiển thị câu hỏi cho người chơi
-   - Kiểm tra câu trả lời
-   - Gọi hàm update_user_points() từ shop_module để cộng điểm
-
-
-CẤU TRÚC THỨ MỤC ĐỀ XUẤT:
--------------------------
-project/
-├── shop_module.py           (file này)
-├── task_module.py           (module nhiệm vụ - sẽ được phát triển)
-├── chatbox_module.py        (module chatbot - sẽ được phát triển)
-├── main.py                  (file tích hợp tất cả module)
-└── assets/
-    ├── cat_spotted.png
-    ├── cat_fluffy.png
-    ├── bed_blue_round.png
-    └── ... (các asset khác)
-
-
-API CÔNG KHAI CỦA SHOP MODULE:
--------------------------------
 - get_user_points() -> int
   Lấy số điểm hiện tại của người chơi
 
@@ -636,11 +764,3 @@ API CÔNG KHAI CỦA SHOP MODULE:
 - purchase_item(item: Dict) -> tuple[bool, str]
   Xử lý mua vật phẩm
 
-
-LƯU Ý QUAN TRỌNG:
------------------
-- Shop module KHÔNG xử lý logic nhiệm vụ
-- Shop module KHÔNG xử lý chatbot
-- Shop module CHỈ quản lý mua/bán và hiển thị
-- Tất cả logic cộng điểm từ nhiệm vụ do module Task xử lý
-"""
