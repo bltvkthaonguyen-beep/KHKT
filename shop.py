@@ -753,14 +753,13 @@ if __name__ == "__main__":
 
 # ============================================================================
 # API CÔNG KHAI CỦA SHOP MODULE
-# ============================================================================
-
-- get_user_points() -> int
+# ==========================================================================
+get_user_points() -> int
   Lấy số điểm hiện tại của người chơi
 
-- update_user_points(new_value: int)
+update_user_points(new_value: int)
   Cập nhật số điểm (module khác gọi khi cộng điểm từ nhiệm vụ)
 
-- purchase_item(item: Dict) -> tuple[bool, str]
+purchase_item(item: Dict) -> tuple[bool, str]
   Xử lý mua vật phẩm
 
