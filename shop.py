@@ -583,7 +583,7 @@ def display_item_card(item: Dict, col):
                 </style>
             """, unsafe_allow_html=True)
         
-        st.markdown('</div>', unsafe_allow_html=True)ị ảnh vật phẩm
+        st.markdown('</div>', unsafe_allow_html=True) # ảnh vật phẩm 
         if os.path.exists(item['image']):
             st.image(item['image'], use_container_width=True)
         else:
