@@ -26,7 +26,7 @@ def init_session_state():
 # Danh sách vật phẩm dựa trên ảnh cung cấp
 SHOP_DATA = {
     "Mèo": [
-        {"id": "cat_01", "name": "Mèo Ragdoll", "price": 100000, "img": "assets/mèo .png"},
+        {"id": "cat_01", "name": "Mèo Ragdoll", "price": 100000, "img": "assets/mèo premium.png"},
         {"id": "cat_02", "name": "Mèo Anh lông dài", "price": 500000, "img": "assets/mèo.png"},
     ],
     "Điệm mèo": [
