@@ -1,12 +1,10 @@
 import streamlit as st
-from typing import List, Dict
 
 # ======================================================
-# 1. KHỞI TẠO STATE (CHỈ LÀM 1 LẦN)
+# 1. KHỞI TẠO STATE
 # ======================================================
 
-def init_shop_state():
-    """Khởi tạo state cho Shop – chỉ chạy khi chưa tồn tại"""
+def init_state():
     if "user_points" not in st.session_state:
         st.session_state.user_points = 5000  # điểm test
 
@@ -18,19 +16,18 @@ def init_shop_state():
 
 
 # ======================================================
-# 2. API NỘI BỘ CHO SHOP (SAU NÀY MODULE KHÁC CÓ THỂ GỌI)
+# 2. API SHOP (KHÔNG ĐỤNG MODULE KHÁC)
 # ======================================================
 
-def get_user_points() -> int:
+def get_user_points():
     return st.session_state.user_points
 
 
-def update_user_points(new_value: int):
-    st.session_state.user_points = new_value
+def update_user_points(value):
+    st.session_state.user_points = value
 
 
-def purchase_item(item: Dict):
-    """Xử lý mua vật phẩm – KHÔNG liên quan nhiệm vụ"""
+def purchase_item(item):
     if item["item_id"] in st.session_state.owned_items:
         st.info("Bạn đã sở hữu vật phẩm này")
         return
@@ -38,13 +35,13 @@ def purchase_item(item: Dict):
     if get_user_points() >= item["price"]:
         update_user_points(get_user_points() - item["price"])
         st.session_state.owned_items.append(item["item_id"])
-        st.success(f"Đã mua {item['name']}")
+        st.success(f"Đã mua: {item['name']}")
     else:
-        st.warning("Không đủ điểm để mua vật phẩm")
+        st.warning("Không đủ điểm để mua")
 
 
 # ======================================================
-# 3. DỮ LIỆU GIẢ LẬP (SAU NÀY TÁCH SANG MODULE RIÊNG)
+# 3. DANH MỤC
 # ======================================================
 
 CATEGORIES = [
@@ -55,59 +52,53 @@ CATEGORIES = [
     "Vật dụng cho mèo"
 ]
 
-ITEMS: List[Dict] = [
-    # -------- MÈO --------
-    {
-        "item_id": "cat_01",
-        "name": "Mèo xám",
-        "category": "Mèo",
-        "price": 100000,
-        "image_path": "assets/cat_01.png"
-    },
-    {
-        "item_id": "cat_02",
-        "name": "Mèo trắng",
-        "category": "Mèo",
-        "price": 500000,
-        "image_path": "assets/cat_02.png"
-    },
 
-    # -------- THỨC ĂN & CÁT --------
-    {
-        "item_id": "food_01",
-        "name": "Thanh dinh dưỡng",
-        "category": "Thức ăn & Cát",
-        "price": 100,
-        "image_path": "assets/food_01.png"
-    },
-    {
-        "item_id": "food_02",
-        "name": "Thức ăn hộp",
-        "category": "Thức ăn & Cát",
-        "price": 250,
-        "image_path": "assets/food_02.png"
-    },
+# ======================================================
+# 4. DANH SÁCH VẬT PHẨM (ĐẦY ĐỦ – ĐÚNG ẢNH)
+# ======================================================
 
-    # -------- CÂY MÈO --------
-    {
-        "item_id": "tree_01",
-        "name": "Cây mèo nhỏ",
-        "category": "Cây mèo",
-        "price": 1000,
-        "image_path": "assets/tree_01.png"
-    },
+ITEMS = {
 
-    # -------- VẬT DỤNG --------
-    {
-        "item_id": "bed_01",
-        "name": "Đệm tròn",
-        "category": "Vật dụng cho mèo",
-        "price": 3500,
-        "image_path": "assets/bed_01.png"
-    },
-]
+    "Mèo": [
+        {"id": "cat_01", "name": "Mèo Ragdoll", "price": 100000, "img": "assets/mèo premium.png"},
+        {"id": "cat_02", "name": "Mèo Anh lông dài", "price": 500000, "img": "assets/mèo.png"},
+    ],
+    "Điệm mèo": [
+        {"id": "bed_01", "name": "Đệm xanh tròn", "price": 3500, "img": "assets/đệm 1.png"},
+        {"id": "bed_02", "name": "Đệm hổ", "price": 3800, "img": "assets/đệm 2.png"},
+        {"id": "bed_03", "name": "Đệm bàn chân", "price": 4100, "img": "assets/đệm 3.png"},
+        {"id": "bed_04", "name": "Nhà xanh", "price": 4400, "img": "assets/đệm 4.png"},
+        {"id": "bed_05", "name": "Nhà tai thỏ", "price": 4600, "img": "assets/đệm 5.png"},
+        {"id": "bed_06", "name": "Nhà mèo trắng", "price": 4800, "img": "assets/đệm 6.png"},
+        {"id": "bed_07", "name": "Đệm cá mập", "price": 5000, "img": "assets/đệm 7.png"},
+    ],
+    "Cây mèo": [
+        {"id": "tree_01", "name": "Cây gỗ cơ bản", "price": 1000, "img": "assets/cây 1.png"},
+        {"id": "tree_02", "name": "Cây hoa sắc màu", "price": 1100, "img": "assets/cây 2.png"},
+        {"id": "tree_03", "name": "Cây tháp xám", "price": 1200, "img": "assets/cây 3.png"},
+        {"id": "tree_04", "name": "Cây chung cư", "price": 1300, "img": "assets/cây 4.png"},
+        {"id": "tree_05", "name": "Cây ngôi sao", "price": 1400, "img": "assets/cây 5.png"},
+        {"id": "tree_06", "name": "Cây bậc thang", "price": 1500, "img": "assets/cây 6.png"},
+    ],
+    "Thức ăn & Cát": [
+        {"id": "food_01", "name": "Thanh dinh dưỡng", "price": 100, "img": "assets/thanh dinh dưỡng.png"},
+        {"id": "food_02", "name": "Pate cá hồi", "price": 250, "img": "assets/hộp thức ăn.png"},
+        {"id": "food_03", "name": "Hạt cao cấp 2kg", "price": 20000, "img": "assets/túi thức ăn.png"},
+        {"id": "litter_01", "name": "Cát vệ sinh 10kg", "price": 15000, "img": "assets/cát mèo.png"},
+    ],
+    "Vật dụng cho mèo": [
+        {"id": "tool_01", "name": "Nhà vệ sinh kín", "price": 1200, "img": "assets/nhà vệ sinh.png"},
+        {"id": "tool_02", "name": "Balo phi hành gia", "price": 400, "img": "assets/túi đựng.png"},
+        {"id": "tool_03", "name": "Máy lọc nước", "price": 900, "img": "assets/khay thức ăn.png"},
+        {"id": "tool_04", "name": "Cuộn len", "price": 50, "img": "assets/len.png"},
+    ]
+}
 
-# ===== NHIỆM VỤ GIẢ LẬP – READ ONLY =====
+
+# ======================================================
+# 5. NHIỆM VỤ (CHỈ HIỂN THỊ)
+# ======================================================
+
 TASKS = [
     {
         "id": "chat_1",
@@ -119,57 +110,61 @@ TASKS = [
 
 
 # ======================================================
-# 4. GIAO DIỆN SHOP
+# 6. UI – SIDEBAR DANH MỤC
 # ======================================================
 
-def render_category_sidebar():
-    st.markdown("### 🛒 SHOP")
+def render_categories():
+    st.markdown("## 🛒 SHOP")
     for cat in CATEGORIES:
         if st.button(cat, use_container_width=True):
             st.session_state.selected_category = cat
 
 
-def render_items_grid():
+# ======================================================
+# 7. UI – HIỂN THỊ VẬT PHẨM
+# ======================================================
+
+def render_items():
     selected = st.session_state.selected_category
-    filtered_items = [i for i in ITEMS if i["category"] == selected]
+    items = [i for i in ITEMS if i["category"] == selected]
 
     cols = st.columns(4)
-
-    for idx, item in enumerate(filtered_items):
+    for idx, item in enumerate(items):
         with cols[idx % 4]:
-            # ----- ẢNH -----
-            if item["image_path"]:
-                st.image(item["image_path"], use_container_width=True)
-            else:
-                st.empty()
+            st.image(item["image_path"], use_container_width=True)
 
-            # ----- GIÁ -----
             if st.button(
                 f"{item['price']} điểm",
-                key=f"buy_{item['item_id']}"
+                key=item["item_id"]
             ):
                 purchase_item(item)
 
 
-def render_task_panel():
+# ======================================================
+# 8. UI – NHIỆM VỤ
+# ======================================================
+
+def render_tasks():
     st.markdown("## 🎯 Nhiệm vụ")
     for task in TASKS:
         with st.container(border=True):
             st.write(task["description"])
-            st.write(f"🎁 Thưởng: {task['reward']} điểm")
-            st.write(f"📌 Trạng thái: {task['status']}")
+            st.write(f"🎁 +{task['reward']} điểm")
+            st.write(f"📌 {task['status']}")
 
 
-def render_points_header():
+# ======================================================
+# 9. UI – HIỂN THỊ ĐIỂM
+# ======================================================
+
+def render_points():
     st.markdown(
         f"""
-        <div style="
-            background-color: white;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-            ">
+        <div style="background:white;
+                    padding:10px;
+                    border-radius:8px;
+                    text-align:center;
+                    font-weight:bold;">
             ⭐ Điểm hiện tại: {get_user_points()}
         </div>
         """,
@@ -178,38 +173,29 @@ def render_points_header():
 
 
 # ======================================================
-# 5. HÀM CHẠY MODULE SHOP
+# 10. CHẠY MODULE SHOP
 # ======================================================
 
 def run_shop():
-    init_shop_state()
+    init_state()
 
     col_left, col_center, col_right = st.columns([1, 3, 1])
 
     with col_left:
-        render_category_sidebar()
+        render_categories()
 
     with col_center:
-        render_items_grid()
+        render_items()
 
     with col_right:
-        render_points_header()
-        render_task_panel()
+        render_points()
+        render_tasks()
 
 
 # ======================================================
-# 6. ĐIỂM TÍCH HỢP MODULE KHÁC (SAU NÀY)
-# ======================================================
-# - Chatbox module: sẽ cập nhật user_points từ bên ngoài
-# - Task module: xử lý hoàn thành nhiệm vụ
-# - Shop KHÔNG xử lý các logic này
-
-
-# ======================================================
-# 7. CHẠY TRỰC TIẾP (TEST)
+# ENTRY POINT
 # ======================================================
 
 if __name__ == "__main__":
     st.set_page_config(layout="wide")
     run_shop()
-
