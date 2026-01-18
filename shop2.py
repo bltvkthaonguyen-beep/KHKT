@@ -190,7 +190,7 @@ SHOP_ITEMS = [
     {"id": "cat_01", "name": "Mèo tam thể", "category": "Mèo", "price": 100000, "image": "assets/mèo.png"},
     {"id": "cat_02", "name": "Mèo Ba Tư", "category": "Mèo", "price": 500000, "image": "assets/mèo premium.png"},
     
-    # DANH MỤC: ĐIỂM MÈO (Vật dụng nhỏ)
+    # DANH MỤC: VẬT DỤNG KHÁCKHÁC (Vật dụng nhỏ)
     {"id": "accessory_01", "name": "Nhà vệ sinh mèo", "category": "Điểm mèo", "price": 1200, "image": "assets/nhà vệ sinh.png"},
     {"id": "accessory_02", "name": "Ba lô vận chuyển", "category": "Điểm mèo", "price": 400, "image": "assets/túi đựng.png"},
     {"id": "accessory_03", "name": "Bát ăn đôi", "category": "Điểm mèo", "price": 900, "image": "assets/khay thức ăn.png"},
@@ -210,7 +210,7 @@ SHOP_ITEMS = [
     {"id": "food_03", "name": "Hạt khô dinh dưỡng", "category": "Thức ăn & Cát", "price": 20000, "image": "assets/túi thức ăn.png"},
     {"id": "food_04", "name": "Cát vệ sinh", "category": "Thức ăn & Cát", "price": 15000, "image": "assets/cát mèo.png"},
     
-    # DANH MỤC: VẬT DỤNG CHO MÈO (Đệm nằm)
+    # DANH MỤC: ĐỆM MÈO
     {"id": "bed_01", "name": "Đệm tròn xanh", "category": "Vật dụng cho mèo", "price": 3500, "image": "assets/đệm 1.png"},
     {"id": "bed_02", "name": "Đệm mèo vằn", "category": "Vật dụng cho mèo", "price": 3800, "image": "assets/đệm 2.png"},
     {"id": "bed_03", "name": "Đệm chân mèo", "category": "Vật dụng cho mèo", "price": 4100, "image": "assets/đệm 3.png"},
