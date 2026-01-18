@@ -105,14 +105,14 @@ SHOP_ITEMS = [
         "name": "Mèo Đốm",
         "category": "Mèo",
         "price": 100000,
-        "image": "assets/cat_spotted.png"  # Ảnh mèo đốm từ Image 1
+        "image": "assets/mèo.png"  # Ảnh mèo đốm từ Image 1
     },
     {
         "id": "cat_02",
         "name": "Mèo Lông Dài",
         "category": "Mèo",
         "price": 500000,
-        "image": "assets/cat_fluffy.png"  # Ảnh mèo lông dài từ Image 1
+        "image": "assets/mèo premium.png"  # Ảnh mèo lông dài từ Image 1
     },
     
     # DANH MỤC: ĐIỂM MÈO (Giường ngủ)
@@ -121,49 +121,49 @@ SHOP_ITEMS = [
         "name": "Đệm Tròn Xanh",
         "category": "Điểm mèo",
         "price": 3500,
-        "image": "assets/bed_blue_round.png"
+        "image": "assets/đệm 1.png"
     },
     {
         "id": "bed_02",
         "name": "Đệm Mèo Vằn",
         "category": "Điểm mèo",
         "price": 3800,
-        "image": "assets/bed_striped.png"
+        "image": "assets/đệm 2.png"
     },
     {
         "id": "bed_03",
         "name": "Đệm Gấu",
         "category": "Điểm mèo",
         "price": 4100,
-        "image": "assets/bed_bear.png"
+        "image": "assets/đệm 3.png"
     },
     {
         "id": "bed_04",
         "name": "Nhà Mèo Xanh",
         "category": "Điểm mèo",
         "price": 4400,
-        "image": "assets/bed_house_blue.png"
+        "image": "assets/đệm 4.png"
     },
     {
         "id": "bed_05",
         "name": "Đệm Tròn Hồng",
         "category": "Điểm mèo",
         "price": 4600,
-        "image": "assets/bed_pink.png"
+        "image": "assets/đệm 5.png"
     },
     {
         "id": "bed_06",
         "name": "Đệm Đen Trắng",
         "category": "Điểm mèo",
         "price": 4800,
-        "image": "assets/bed_blackwhite.png"
+        "image": "assets/đệm 6.png"
     },
     {
         "id": "bed_07",
         "name": "Giường Kẻ Sọc",
         "category": "Điểm mèo",
         "price": 5000,
-        "image": "assets/bed_striped_red.png"
+        "image": "assets/đệm 7.png"
     },
     
     # DANH MỤC: CÂY MÈO
@@ -172,42 +172,42 @@ SHOP_ITEMS = [
         "name": "Cây Mèo Cam",
         "category": "Cây mèo",
         "price": 1000,
-        "image": "assets/tree_orange.png"
+        "image": "assets/cây 1.png"
     },
     {
         "id": "tree_02",
         "name": "Cây Mèo Xanh",
         "category": "Cây mèo",
         "price": 1100,
-        "image": "assets/tree_blue.png"
+        "image": "assets/cây 2.png"
     },
     {
         "id": "tree_03",
         "name": "Cây Mèo Kem",
         "category": "Cây mèo",
         "price": 1200,
-        "image": "assets/tree_cream.png"
+        "image": "assets/cây 3.png"
     },
     {
         "id": "tree_04",
         "name": "Cây Mèo Xám",
         "category": "Cây mèo",
         "price": 1300,
-        "image": "assets/tree_gray.png"
+        "image": "assets/cây 4.png"
     },
     {
         "id": "tree_05",
         "name": "Cây Mèo Mini",
         "category": "Cây mèo",
         "price": 1400,
-        "image": "assets/tree_mini.png"
+        "image": "assets/cây 5.png"
     },
     {
         "id": "tree_06",
         "name": "Cây Mèo Lớn",
         "category": "Cây mèo",
         "price": 1500,
-        "image": "assets/tree_large.png"
+        "image": "assets/cây 6.png"
     },
     
     # DANH MỤC: THỨC ĂN & CÁT
@@ -216,28 +216,28 @@ SHOP_ITEMS = [
         "name": "Snack Mèo (3 vị)",
         "category": "Thức ăn & Cát",
         "price": 100,
-        "image": "assets/food_snack_3.png"
+        "image": "assets/tanh dinh dưỡng.png"
     },
     {
         "id": "food_02",
         "name": "Pate Cá Ngừ",
         "category": "Thức ăn & Cát",
         "price": 250,
-        "image": "assets/food_pate.png"
+        "image": "assets/hộp thức ăn.png"
     },
     {
         "id": "food_03",
         "name": "Thức Ăn Khô",
         "category": "Thức ăn & Cát",
         "price": 20000,
-        "image": "assets/food_dry.png"
+        "image": "assets/túi thức ăn.png"
     },
     {
         "id": "litter_01",
         "name": "Cát Vệ Sinh",
         "category": "Thức ăn & Cát",
         "price": 15000,
-        "image": "assets/cat_litter.png"
+        "image": "assets/cát mèo.png"
     },
     
     # DANH MỤC: VẬT DỤNG CHO MÈO
@@ -246,28 +246,28 @@ SHOP_ITEMS = [
         "name": "Nhà Vệ Sinh",
         "category": "Vật dụng cho mèo",
         "price": 1200,
-        "image": "assets/litter_box.png"
+        "image": "assets/nhà vệ sinh.png"
     },
     {
         "id": "util_02",
         "name": "Balo Vận Chuyển",
         "category": "Vật dụng cho mèo",
         "price": 400,
-        "image": "assets/carrier.png"
+        "image": "assets/túi đựng mèo.png"
     },
     {
         "id": "util_03",
         "name": "Bát Ăn Đôi",
         "category": "Vật dụng cho mèo",
         "price": 900,
-        "image": "assets/bowl_double.png"
+        "image": "assets/khay thức ăn.png"
     },
     {
         "id": "util_04",
         "name": "Bóng Len",
         "category": "Vật dụng cho mèo",
         "price": 50,
-        "image": "assets/toy_yarn.png"
+        "image": "assets/len.png"
     },
 ]
 
