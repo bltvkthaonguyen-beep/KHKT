@@ -1,12 +1,14 @@
 import streamlit as st
+from typing import List, Dict
 
 # ======================================================
-# 1. KHỞI TẠO STATE
+# 1. KHỞI TẠO STATE (CHỈ DÙNG ĐỂ TEST SHOP)
 # ======================================================
 
-def init_state():
+def init_shop_state():
+    """Khởi tạo state nếu chưa tồn tại"""
     if "user_points" not in st.session_state:
-        st.session_state.user_points = 5000  # điểm test
+        st.session_state.user_points = 5000  # điểm test ban đầu
 
     if "owned_items" not in st.session_state:
         st.session_state.owned_items = []
@@ -16,32 +18,19 @@ def init_state():
 
 
 # ======================================================
-# 2. API SHOP (KHÔNG ĐỤNG MODULE KHÁC)
+# 2. CÁC HÀM QUẢN LÝ ĐIỂM (READ / UPDATE)
 # ======================================================
 
-def get_user_points():
+def get_user_points() -> int:
     return st.session_state.user_points
 
 
-def update_user_points(value):
-    st.session_state.user_points = value
-
-
-def purchase_item(item):
-    if item["item_id"] in st.session_state.owned_items:
-        st.info("Bạn đã sở hữu vật phẩm này")
-        return
-
-    if get_user_points() >= item["price"]:
-        update_user_points(get_user_points() - item["price"])
-        st.session_state.owned_items.append(item["item_id"])
-        st.success(f"Đã mua: {item['name']}")
-    else:
-        st.warning("Không đủ điểm để mua")
+def update_user_points(new_value: int):
+    st.session_state.user_points = new_value
 
 
 # ======================================================
-# 3. DANH MỤC
+# 3. DỮ LIỆU SHOP (STATIC – DỄ MỞ RỘNG)
 # ======================================================
 
 CATEGORIES = [
@@ -49,17 +38,11 @@ CATEGORIES = [
     "Điểm mèo",
     "Cây mèo",
     "Thức ăn & Cát",
-    "Vật dụng cho mèo"
+    "Vật dụng cho mèo",
 ]
 
-
-# ======================================================
-# 4. DANH SÁCH VẬT PHẨM (ĐẦY ĐỦ – ĐÚNG ẢNH)
-# ======================================================
-
-ITEMS = {
-
-    "Mèo": [
+ITEMS: List[Dict] = {
+ "Mèo": [
         {"id": "cat_01", "name": "Mèo Ragdoll", "price": 100000, "img": "assets/mèo premium.png"},
         {"id": "cat_02", "name": "Mèo Anh lông dài", "price": 500000, "img": "assets/mèo.png"},
     ],
@@ -94,9 +77,8 @@ ITEMS = {
     ]
 }
 
-
 # ======================================================
-# 5. NHIỆM VỤ (CHỈ HIỂN THỊ)
+# 4. GIẢ LẬP DỮ LIỆU NHIỆM VỤ (READ-ONLY)
 # ======================================================
 
 TASKS = [
@@ -104,98 +86,119 @@ TASKS = [
         "id": "chat_1",
         "description": "Trả lời câu hỏi của chatbot",
         "reward": 50,
-        "status": "pending"
-    }
+        "status": "pending",
+    },
+    {
+        "id": "chat_2",
+        "description": "Hoàn thành 3 câu hỏi",
+        "reward": 100,
+        "status": "pending",
+    },
 ]
 
 
 # ======================================================
-# 6. UI – SIDEBAR DANH MỤC
+# 5. LOGIC MUA VẬT PHẨM
 # ======================================================
 
-def render_categories():
-    st.markdown("## 🛒 SHOP")
+def purchase_item(item: Dict):
+    """Xử lý mua vật phẩm"""
+    if item["item_id"] in st.session_state.owned_items:
+        st.info("Bạn đã sở hữu vật phẩm này")
+        return
+
+    if get_user_points() >= item["price"]:
+        update_user_points(get_user_points() - item["price"])
+        st.session_state.owned_items.append(item["item_id"])
+        st.success(f"Đã mua {item['name']}")
+    else:
+        st.warning("Không đủ điểm để mua vật phẩm này")
+
+
+# ======================================================
+# 6. GIAO DIỆN SHOP
+# ======================================================
+
+def render_category_sidebar():
+    """Thanh danh mục bên trái"""
+    st.markdown("## SHOP")
     for cat in CATEGORIES:
         if st.button(cat, use_container_width=True):
             st.session_state.selected_category = cat
 
 
-# ======================================================
-# 7. UI – HIỂN THỊ VẬT PHẨM
-# ======================================================
-
-def render_items():
+def render_items_grid():
+    """Khu vực trung tâm hiển thị vật phẩm"""
     selected = st.session_state.selected_category
-    items = [i for i in ITEMS if i["category"] == selected]
+    filtered_items = [i for i in ITEMS if i["category"] == selected]
 
     cols = st.columns(4)
-    for idx, item in enumerate(items):
-        with cols[idx % 4]:
-            st.image(item["image_path"], use_container_width=True)
 
-            if st.button(
-                f"{item['price']} điểm",
-                key=item["item_id"]
-            ):
+    for idx, item in enumerate(filtered_items):
+        with cols[idx % 4]:
+            if item.get("image_path"):
+                st.image(item["image_path"], use_container_width=True)
+            else:
+                st.empty()  # placeholder nếu chưa có ảnh
+
+            st.caption(item["name"])
+
+            # Click vào GIÁ để mua
+            if st.button(f"{item['price']} điểm", key=item["item_id"]):
                 purchase_item(item)
 
 
-# ======================================================
-# 8. UI – NHIỆM VỤ
-# ======================================================
+def render_task_panel():
+    """Thanh nhiệm vụ bên phải (READ-ONLY)"""
+    st.markdown("### 🎯 Nhiệm vụ")
 
-def render_tasks():
-    st.markdown("## 🎯 Nhiệm vụ")
+    # Hiển thị điểm hiện tại
+    st.markdown(f"**Điểm hiện tại:** {get_user_points()}")
+
+    st.divider()
+
     for task in TASKS:
-        with st.container(border=True):
-            st.write(task["description"])
-            st.write(f"🎁 +{task['reward']} điểm")
-            st.write(f"📌 {task['status']}")
+        st.markdown(
+            f"""
+            **{task['description']}**  
+            🎁 Thưởng: {task['reward']}  
+            ⏳ Trạng thái: {task['status']}
+            """
+        )
+        st.divider()
 
 
 # ======================================================
-# 9. UI – HIỂN THỊ ĐIỂM
+# 7. HÀM CHÍNH – SHOP MODULE
 # ======================================================
 
-def render_points():
-    st.markdown(
-        f"""
-        <div style="background:white;
-                    padding:10px;
-                    border-radius:8px;
-                    text-align:center;
-                    font-weight:bold;">
-            ⭐ Điểm hiện tại: {get_user_points()}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+def shop_app():
+    """
+    SHOP MODULE
+    - Chỉ chịu trách nhiệm hiển thị & mua
+    - Không xử lý nhiệm vụ / chatbot
+    """
+    init_shop_state()
 
+    left, center, right = st.columns([2, 6, 3])
 
-# ======================================================
-# 10. CHẠY MODULE SHOP
-# ======================================================
+    with left:
+        render_category_sidebar()
 
-def run_shop():
-    init_state()
+    with center:
+        render_items_grid()
 
-    col_left, col_center, col_right = st.columns([1, 3, 1])
-
-    with col_left:
-        render_categories()
-
-    with col_center:
-        render_items()
-
-    with col_right:
-        render_points()
-        render_tasks()
+    with right:
+        render_task_panel()
 
 
 # ======================================================
-# ENTRY POINT
+# 8. ENTRY POINT
 # ======================================================
 
 if __name__ == "__main__":
-    st.set_page_config(layout="wide")
-    run_shop()
+    st.set_page_config(
+        page_title="Cat Shop",
+        layout="wide",
+    )
+    shop_app()
