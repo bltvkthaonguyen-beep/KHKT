@@ -22,7 +22,7 @@ def get_base64_image(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-bg_base64 = get_base64_image("background.jpg")
+bg_base64 = get_base64_image("background.png")
 
 # ====== HTML + CSS (NHẬN BIẾN PYTHON) ======
 html_code = f"""
