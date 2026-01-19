@@ -17,21 +17,42 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ============================================================================
-# XỬ LÝ HÌNH ẢNH NỀN
-# ============================================================================
-def get_base64_image(image_path):
-    """Chuyển đổi hình ảnh thành base64 để nhúng vào HTML"""
-    try:
-        with open(image_path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode()
-    except:
-        return None
+# ====== HÀM CHUYỂN ẢNH SANG BASE64 ======
+def get_base64_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
-# Nếu có file hình ảnh, sử dụng đường dẫn thực tế
-# Ở đây tôi sẽ sử dụng URL từ hình ảnh bạn cung cấp
-background_image_url = "data:image/jpeg;base64,..."  # Thay bằng base64 thực tế hoặc URL
+bg_base64 = get_base64_image("background.jpg")
 
+# ====== HTML + CSS (NHẬN BIẾN PYTHON) ======
+html_code = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {{
+    margin: 0;
+    overflow: hidden;
+}}
+
+#background {{
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/jpeg;base64,{bg_base64}");
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}}
+</style>
+</head>
+
+<body>
+    <div id="background"></div>
+</body>
+</html>
+"""
+
+st.components.v1.html(html_code, height=800, scrolling=False)
 # ============================================================================
 # GIAO DIỆN HTML/CSS/JAVASCRIPT CHÍNH
 # ============================================================================
